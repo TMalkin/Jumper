@@ -11,9 +11,11 @@ public class Movement : MonoBehaviour
     public bool isgrounded = true;
     public int speed = 0;
     public Rigidbody2D rigidbody; 
+    Animator anin;
     // Start is called before the first frame update
     void Start()
     {
+        anin = GetComponent<Animator>();
         rigidbody = gameObject.GetComponent<Rigidbody2D>();
     }
 
@@ -25,6 +27,12 @@ public class Movement : MonoBehaviour
         }
         float y_movement = rigidbody.velocity.y;
         float x_movement = rigidbody.velocity.x;
+        if(Input.GetAxisRaw("Horizontal") == 0) {
+            anin.SetBool("IsMoving", false);
+        }
+        else{
+            anin.SetBool("IsMoving", true);
+        }
         rigidbody.velocity = new Vector2(1 * Input.GetAxisRaw("Horizontal") * speed, y_movement);
         if(Input.GetAxisRaw("Vertical") == 1 && isgrounded == true) {
             rigidbody.velocity = new Vector2(x_movement, 0);
